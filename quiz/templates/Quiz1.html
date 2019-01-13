@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en"  id="full" oncontextmenu="return false" onkeydown="return false;" onmousedown="return false">
+{% load staticfiles %}
+{% if user.is_authenticated %}
+    <head>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+            <link rel="icon" type="image/x-icon" href="{%static 'title.ico'%}">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <meta https-equiv="X-UA-Compatible" content="ie=edge">
+
+<link href="https://fonts.googleapis.com/css?family=Audiowide|Cabin+Sketch|Josefin+Slab|Monoton" rel="stylesheet">
+
+         <link rel="stylesheet" href="{% static 'quiz.css' %}">
+        <title>QuizOholic</title>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    </head>
+    <body >
+    <!--for cookies-->
+                <div class="" style="text-align: left;padding-top: 3px;font-size:2rem;font-family: ''Josefin Slab', serif', cursive;color: #f5f6fa ;display: none" id="forcookie">{{ quiz_object.Quiz_id }}</div>
+                <div class="" style="text-align: left;padding-top: 3px;font-size:2rem;font-family: ''Josefin Slab', serif', cursive;color: #f5f6fa ;display: none" id="forcookie_user">{{ user }}</div>
+                <!--End cookies-->
+
+     <div class="container-fluid " style="background-color:#5042f4;max-width: 100%;" id="nav">
+            <div class="row justify-content-around" >
+                <div class="col-md-9" style="text-align: left;padding-top: 3px;font-size:2rem;font-family: 'Monoton', cursive;color: #f5f6fa"> QuizOholic</div>
+
+                <div class="col-md-3"  style="padding-top: 3px; font-size:2rem;color: #f5f6fa;font-family: 'Cabin sketch', cursive; ">Time : <span id='timer' style="padding:2px;border-style: solid;border-color: whitesmoke; border-radius:12px;">{{ quiz_object.duration}}</span></div>
+            </div>
+        </div>
+        <div class="container-fluid" style="background-color: #f1f2f6; position: relative;" id="sec_nav">
+            <div class="row" style="padding-top: 12px padding-left:7px">
+                <div class="col-md-9 " style="padding-top:15px; font-family:Cabin Sketch; "><h2 style="padding-left:20px;"><u>{{quiz_object.name}}</u></h2></div>
+                <div class="col-md-3">
+               <form name="quiz" action="{% url 'calculate_score' quizid=quiz_object.Quiz_id %}" method="POST">
+            {% csrf_token %}  <button type="submit" class="btn-hover color-10"  id="endtest" >End Test</button>
+               </form> </div>
+            </div>
+
+            <div class="row" id="see" style="position:absolute; z-index:3; margin-top:150px;"> <button onclick="fullscr()" id="fullscreen" class="btn-hover color-6"> Click to See </button></div>
+            <div class="row justify-content-center" style="position:relative; filter: blur(5px); padding-left: 0px; " id="ques_list">
+                <div class="col-md-2 card border-right-0 txt" style="color:grey; border-style:double ;border-color: #7f8fa6;border-radius:10px; height: 32em;width: auto;overflow-y: auto" id="questions">
+
+
+      {% if user.is_authenticated %}
+
+
+            <ol id="ques_font">
+
+            {% for obj in quiz_data%}
+            <br>
+
+               <li>
+                <a href="#" id="q{{obj.id}}" style=" margin:0px;"  onclick="quesFetch({{ obj.id }})">{{obj.question|truncatechars:50}}</a>
+               </li>
+
+
+
+                <div id="back_{{ obj.id }}" >
+            <ul class="list-group" style="display:none; padding-top:20px;" id="{{ obj.id }}" >
+                <li class="list-group-item">{{obj.question}}</li>
+                     {%if obj.image %}
+                <li class="list-group-item d-flex justify-content-center" >
+                    <img src="{{obj.image}}" class="img-fluid col-9">
+                </li>
+                {% endif %}
+                {%if obj.code %}
+                <li class="list-group-item">
+                    <code class="col-4">
+                        {{obj.code|linebreaks}}
+                    </code>
+                </li>
+                {% endif %}
+                <form method="POST" action="{% url 'test' quizid=quiz_object.Quiz_id %}" name="{{obj.id}}">
+                    {% csrf_token %}
+                <input type="hidden"  value="{{obj.id}}" name="question_{{obj.id}}">
+                <li class="list-group-item">
+                    <input class="col-1" type="radio" value="{{obj.a}}" id="optionA" name="response_{{obj.id}}">
+                    <span class='col-11'>{{obj.a}}</span>
+                </li>
+                <li class="list-group-item">
+                    <input class="col-1" type="radio" value="{{obj.b}}" id="optionB" name="response_{{obj.id}}">
+                    <span class='col-11'>{{obj.b}}</span>
+                </li>
+                <li class="list-group-item">
+                    <input class="col-1" type="radio" value="{{obj.c}}" id="optionC" name="response_{{obj.id}}">
+                    <span class='col-11'>{{obj.c}}</span>
+                </li>
+                <li class="list-group-item">
+                    <input class="col-1" type="radio" value="{{obj.d}}" id="optionD" name="response_{{obj.id}}">
+                    <span class='col-11'>{{obj.d}}</span>
+                </li>
+                <li class="list-group-item" id="recorded_{{obj.id}}" >
+                    <button type="submit" class="btn btn-primary">Submit </button><span></span>
+                </li>
+                </form>
+            </ul>
+                </div>
+            <br>
+            {% endfor %}
+
+
+        <br>
+
+    {% endif %}
+
+
+
+                </div>
+
+                <div class="col-md-10" id="content_parent" style="border-style: double;border-color: #7f8fa6;border-width: 3px;background-color: white;border-radius: 10px;" id="questions_main">
+                    <div class="container center-block" id="content" style="max-width: 100%;background-color: white;">
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+                <div class="container-fluid" style="margin-top:4px;">
+          <div class="dropdown" style="float:right;">
+              <button class="btn btn-secondary dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Theme
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" onclick="light()">Light</a>
+                <a class="dropdown-item" href="#" onclick="dark()">Dark</a>
+              </div>
+            </div>
+                        </div>
+
+
+    </body>
+<script>
+    function light()
+    {
+      var nav = document.getElementById("nav");
+      nav.setAttribute("style","background-color:#5042f4;max-width: 100%");
+      var sec_nav=document.getElementById("sec_nav");
+          sec_nav.setAttribute("style","background-color:#f1f2f6");
+      var ques_bar = document.getElementById("questions");
+      ques_bar.setAttribute("style"," height:40em;background-color:white; border-style:double ;border-color: #7f8fa6;border-radius:10px;width: auto;overflow-y: auto");
+      var ques_font=document.getElementById("ques_font");
+      ques_font.setAttribute("style","color:grey;");
+      var content = document.getElementById("content_parent");
+          content.setAttribute("style","border-style: double;border-color: #7f8fa6;border-width: 3px;background-color:white;border-radius: 10px;");
+    }
+        function dark()
+    {
+      var nav = document.getElementById("nav");
+          nav.setAttribute("style","background-color:black;max-width: 100%");
+       var sec_nav=document.getElementById("sec_nav");
+          sec_nav.setAttribute("style","background-color:#D3D3D3");
+      var ques_bar = document.getElementById("questions");
+          ques_bar.setAttribute("style","height:40em;color:yellow; background-color:black; border-style:double ;border-color:white;border-radius:10px;width: auto;overflow-y: auto");
+      var content = document.getElementById("content_parent");
+          content.setAttribute("style","border-style: double;border-color:#f4d942;border-width: 3px;background-color: black;border-radius: 10px;");
+      var ques_font=document.getElementById("ques_font");
+          ques_font.setAttribute("style","color:white;");
+    }
+
+</script>
+<!--full screen-->
+<script>
+<!--window.onbeforeunload = function () {-->
+
+<!--//Prevent Ctrl+W-->
+
+<!--};-->
+//Exits the test upon closing fulscreen
+if (document.addEventListener)
+{
+    document.addEventListener('webkitfullscreenchange', exitHandler, false);
+    document.addEventListener('mozfullscreenchange', exitHandler, false);
+    document.addEventListener('fullscreenchange', exitHandler, false);
+    document.addEventListener('MSFullscreenChange', exitHandler, false);
+}
+function exitHandler()
+{
+    if (document.webkitIsFullScreen === false)
+    {
+      document.getElementById("endtest").click();
+
+    }
+    else if (document.mozFullScreen === false)
+    {
+      document.getElementById("endtest").click();
+          }
+    else if (document.msFullscreenElement === false)
+    {
+      document.getElementById("endtest").click();
+    }
+}
+
+//start Fulscreen
+function fullscr() {
+   var ques_list =  document.getElementById("ques_list");
+   ques_list.setAttribute("style","filter: blur(0px);");
+     var element = document.getElementById("see");
+    element.parentNode.removeChild(element);
+          var ques_bar=document.getElementById("questions");
+ ques_bar.setAttribute("style"," height:40em;background-color:white; border-style:double ;border-color: #7f8fa6;border-radius:10px;width: auto;overflow-y: auto");
+
+
+
+ var element = document.getElementById("full");
+ console.log(element);
+
+if (element.mozRequestFullScreen) {
+
+       element.mozRequestFullScreen();
+
+} else if (element.webkitRequestFullScreen) {
+
+  element.webkitRequestFullScreen();}
+   }
+
+</script>
+<!--Full screen ends-->
+
+
+<!--Question fetch-->
+<script>
+             var lastUsed=null;
+function quesFetch(id) {
+    if(lastUsed!=null) {
+
+
+        var back = document.getElementById('back_' + lastUsed);
+        var content_back = document.getElementById(lastUsed);
+        content_back.style.display='none';
+        back.appendChild(content_back);
+    }
+    var y = document.getElementById('content');
+    var x = document.getElementById(id);
+    {#var cln=x.cloneNode(true);#}
+    y.innerHTML = "";
+           if (x.style.display === "none")
+    x.style.display = "block";
+            else
+    x.style.display = "none";
+    console.log(x);
+    y.appendChild(x);
+    lastUsed=id;
+
+    $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
+
+
+}
+</script>
+<!-- Question fetch ends -->
+
+<!--Ajax-->
+    <script>
+            $(function() {
+
+
+                // This function gets cookie with a given name
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+                var csrftoken = getCookie('csrftoken');
+
+                /*
+                The functions below will create a header with csrftoken
+                */
+
+                function csrfSafeMethod(method) {
+                    // these HTTP methods do not require CSRF protection
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                }
+                function sameOrigin(url) {
+                    // test that a given url is a same-origin URL
+                    // url could be relative or scheme relative or absolute
+                    var host = document.location.host; // host + port
+                    var protocol = document.location.protocol;
+                    var sr_origin = '//' + host;
+                    var origin = protocol + sr_origin;
+                    // Allow absolute or scheme relative URLs to same origin
+                    return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+                        (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+                        // or any other URL that isn't scheme relative or absolute i.e relative.
+                        !(/^(\/\/|http:|https:).*/.test(url));
+                }
+
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                            // Send the token to same-origin, relative URLs only.
+                            // Send the token only if the method warrants CSRF protection
+                            // Using the CSRFToken value acquired earlier
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        }
+                    }
+                });
+
+            });
+
+            {% for obj in quiz_data%}
+    $('form[name ="{{obj.id}}"]').on('submit', function(event){
+        event.preventDefault();
+        console.log("form submitted!")
+        var quid = $('input[name="question_{{obj.id}}"]').val();
+        var res = $('input[name="response_{{obj.id}}"]:checked').val();
+        submit(quid, res);
+    });
+    {% endfor %}
+
+    function submit(quid, res) {
+        console.log("create post is working!") // sanity check
+        $.ajax({
+            url : "{% url 'test' quizid=quiz_object.Quiz_id %}", // the endpoint
+            type : "POST", // http method
+            data : {question_id: quid, response: res}, // data sent with the post request
+
+            // handle a successful response
+            success : function(json) {
+                console.log(res);
+                $('input[name="response"]:checked').val('');
+                console.log("success is yours Mylord");
+                $('#recorded_'+quid).html("<button type='submit' class='btn btn-success'>Submit </button><span style='padding-left:50px'> <strong>  &#x2714 Response Recorded</strong></span>");
+                 $("#q"+quid).attr("style","color:green;");
+                },
+
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "    +errmsg+
+                    " <a href='#' class='close'>&times;</a></div>");
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+};
+</script>
+    <!--Ajax ends-->
+
+    <!--Timer-->
+       <script type="text/javascript">
+        var forcookie=document.getElementById('forcookie').innerHTML+document.getElementById('forcookie_user').innerHTML;
+        if(getCookie(forcookie)){
+            var total_seconds=getCookie(forcookie);
+        }
+        else {
+            var fetch_time = document.getElementById('timer').innerHTML;
+            var pieces = fetch_time.split(":");
+            var total_seconds = 3600 * parseInt(pieces[0]) + 60 * parseInt(pieces[1]) + parseInt(pieces[2]);
+        }
+        var hours=parseInt(total_seconds/3600);
+        var minutes=parseInt((total_seconds%3600)/60);
+        var seconds=parseInt(total_seconds%60);
+         hours = hours < 10 ? "0" + hours : hours;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+       seconds = seconds < 10 ? "0" + seconds : seconds;
+        function checkTime(){
+        document.getElementById('timer').innerHTML=hours +':'+ minutes +':' +seconds;
+        if(total_seconds<=0)
+        {
+         setTimeout('document.quiz.submit()',1);
+        }
+        else
+        {
+
+             total_seconds=total_seconds-1;
+             hours=parseInt(total_seconds/3600);
+             minutes=parseInt((total_seconds%3600)/60);
+             seconds=parseInt(total_seconds%60);
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+             setTimeout("checkTime()",1000);
+
+        }
+        setCookie(forcookie,total_seconds,1);}
+        setTimeout("checkTime()",1000);
+function setCookie(cname,cvalue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname+"="+cvalue+"; "+expires;
+}
+ function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+	</script>
+    <!--Timer Ends-->
+
+
+{% endif %}
+</html>

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+{{quiz_object.name}} | Instructions
+{% endblock %}
+{% block content %}
+
+<div class="container" >
+    <div class="row">
+        <div class="col-6"><h2 style="font-family:'Major Mono Display', monospace;
+color:#5D595D  ;"> <u>{{ quiz_object.name }}</u></h2>
+        </div>
+
+    <div class="col-6">
+<h2 style="float:;font-family:'Major Mono Display', monospace;
+ color:#5D595D  "><u>Quizmaster</u>: {{ quiz_object.quizmaster }}</h2>
+    </div>
+
+
+    </div>
+    <br>
+<div class="row">
+    <div class="col-md-7">
+        <div class="container">
+
+    <div class="card bg-light mb-3">
+  <div class="card-header">About</div>
+  <div class="card-body">
+{#    <h5 class="card-title">Primary card title</h5>#}
+     <p class="card-text" >{{ quiz_object.about|linebreaks }}</p>
+  </div>
+</div>
+
+</div>
+    <br>
+    <br>
+     <div class="row">
+         <div class="container">
+         <div class="card border-light ">
+  <div class="card-header">Instructions <span class="float-right">Duration: {{ quiz_object.duration }}</span></div>
+  <div class="card-body">
+
+    <ol >
+            <li class="text-muted" style="margin-bottom:10px;">All questions are compulsory.</li>
+            <li class="text-muted" style="margin-bottom:10px;">There will {{ quiz_object.positive }} marks for correct answer and {{ quiz_object.negative }} will be deducted for wrong answer.</li>
+            <li class="text-muted" style="margin-bottom:10px;">The Quiz will start at : {{ quiz_object.start_time.time }}</li>
+            <li class="text-muted" style="margin-bottom:10px;">You are advised to not indulge in wrong ethics.</li>
+            <li class="text-muted" style="margin-bottom:10px;">In case of any discrepancy contact Quizmaster.</li>
+
+
+            {% for instruct in instruct_list %}
+            <li class="text-muted" style="margin-bottom:10px;">{{instruct}}</li>
+
+            {% endfor %}
+            <li class="text-muted" style="margin-bottom:10px;">Happy Quizzing!!.</li>
+
+        </ol>
+  </div>
+</div>
+</div>
+     </div>
+
+    </div>
+    <div class="col-md-5">
+        <div class="container card" style="width: ; padding:28px; margin:45px auto;">
+    <form class="form-signin" method="POST" action="{% url 'quiz_auth' quizid=quiz_object.Quiz_id %}">
+        {% csrf_token %}
+        <div class="text-center">
+{#             now= {{ today.time }}#}
+{#            start_time={{ quiz_object.start_time.time }}#}
+
+            <h1 class="h3 mb-3 font-weight-normal">Let's Start</h1>
+        </div>
+            <label for="username">Username :</label>
+            <input type="text" id="username" disabled class="form-control -p3"  required autofocus name="username" value="{{ user.username }}"><br>
+            <label for="inputPassword">Password :</label>
+            <input type="password" id="inputPassword" class="form-control -p3" placeholder="Test-Password" required name="password"><br>
+            <br>
+
+            {% if quiz_object.start_time.time <= today.time and margin %}
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit" id="sub">Start Quiz</button>
+
+            {% else %}
+               <button class="btn btn-lg btn-primary btn-block disabled" disabled="disabled" type="submit" id="sub">Start Quiz</button>
+           {% endif %}
+
+
+        </form>
+    </div>
+
+    </div>
+</div>
+
+</div>
+    <script>
+{#$("form").bind("keypress", function (e) {#}
+{#    if (e.keyCode == 13) {#}
+{#        return false;#}
+{#    }#}
+{#})#}
+
+    </script>
+{% endblock %}

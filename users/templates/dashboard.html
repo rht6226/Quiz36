@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Quizzer|Dashboard
+{% endblock %}
+
+{%if user.is_authenticated %}
+{% block content %}
+
+    <br/>
+    <br>
+    <br>
+    <div class="container">
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissable">
+    <strong>
+        {{ message }}
+</strong>
+          <button type="button" class="close" data-dismiss="alert" >&times;</button>
+        </div>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="container">
+<div class="row">
+{% if user.profile.role == 'admin' %}
+        <div class="col-md">
+            <button href="" class="btn-hover color-9   btn-block btn-huge" data-toggle="modal" data-target="#myModal">Start A Quiz</button>
+        </div>
+
+        <div class="col-md">
+            <button onclick="window.location.href='{% url 'create_quiz' %}'" class="btn-hover color-9   btn-block btn-huge">Create a Quiz</button>
+        </div>
+{% else %}
+    <div class="col-3">
+        &nbsp;
+    </div>
+    <div class="col-6 justify-content-center">
+        <button href="" class="btn-hover color-9  btn-block btn-huge" data-toggle="modal" data-target="#myModal">Start A Quiz</button>
+    </div>
+{% endif %}
+</div>
+</div>
+        <br>
+        <br>
+        <div class="row">
+
+            <h1 style="font-family: 'Faster One', cursive; border-left: 6px solid red;
+    background-color: #ecf7f9;">Available Quizzes</h1>
+
+        </div>
+
+           <div class="row">
+            <div class="col-8">
+                              <div class="dropdown">
+                  <button class="btn btn-primary-outline dropdown-toggle" style=" background-color: transparent;
+  border-color: #ccc;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+
+                  </div>
+                </div>
+            </div>
+
+            <div class="col-4 input-group" style="float:right">
+
+              <form action="{% url 'search' %}" method="get">
+               <div class="form-inline">
+              <input type="text" placeholder="Search.."  name="search" class="form-control">
+                <button class="btn btn-outline-secondary" style="" ><i class="fa fa-search"></i></button>
+               </form>
+              </div>
+            </div>
+
+           </div>
+<br>
+
+        <div class="row table-responsive">
+            <table class="table table-striped" style="font-family:'Cute Font', cursive; font-size:1.5em;">
+  <thead class="thead-dark">
+    <tr>
+
+      <th scope="col">Quiz_Name</th>
+      <th scope="col">Quizmaster</th>
+      <th scope="col">Duration</th>
+      <th scope="col">Attempt</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for obj in quiz_object %}
+
+    <tr>
+
+      <td><strong>{{ obj.name }}</strong></td>
+      <td>{{ obj.quizmaster }}</td>
+      <td>{{ obj.duration }}</td>
+      <td><form method="POST" action="{% url 'start_quiz' %}">{% csrf_token %}<input type="hidden" value="{{obj.Quiz_id}}" name="quizid"><button type="submit" style="font-size:1em;"class="btn btn-default">Start</button></form></td>
+
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+        </div>
+<div class="row justify-content-center">
+    <div class="pagination justify-content-center">
+            <li class="page-item">
+                {% if quiz_object.has_previous %}
+                    <a href="?page=1"  class="btn btn-md btn-info">&laquo; first</a>
+                    <a href="?page={{ quiz_object.previous_page_number }}" class="btn btn-md btn-info">previous</a>
+                {% endif %}
+            </li>
+                <li class="page-item"style="margin:5px">
+                   <button class="btn" style="color:black;">Page {{ quiz_object.number }} of {{ quiz_object.paginator.num_pages }}</button>
+                </li>
+              <li class="page-item">
+                {% if quiz_object.has_next %}
+                    <a href="?page={{ quiz_object.next_page_number }}" class="btn btn-md btn-info ">next</a>
+                    <a href="?page={{ quiz_object.paginator.num_pages }}" class=" btn btn-md btn-info " >last &raquo;</a>
+                {% endif %}
+            </li class="page-item">
+        </div>
+
+</div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <hr>
+ <!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+
+      <div class="modal-body">
+        <form class="form-signin"  method="POST" action="{% url 'start_quiz' %}">
+        {% csrf_token %}
+        <div class="text-center">
+            <img src="{% static 'letter-q.png' %}" width="60" class="d-inline-block align-top">
+
+            <h1 class="h3 mb-3 font-weight-normal">Enter Quiz-id</h1>
+        </div>
+            <label for="quizid">Quiz-Id :</label>
+            <input type="text" id="quizid" class="form-control -p3" placeholder="Enter Quiz-Id" required autofocus name="quizid"><br>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Start Quiz</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+{% endblock %}
+{% endif %}
+{% block js_extra %}
+
+<!--<script type="text/javascript">-->
+    <!--$(document).ready(function(){-->
+
+        <!--var infiniteScroll = new Waypoint.Infinite({-->
+          <!--element: $('.issues-container')[0],-->
+          <!--items: '.issue-list-item',-->
+          <!--loadingClass: 'more-issues-loading',-->
+          <!--more: '.more-issues-link'-->
+        <!--});-->
+    <!--});-->
+<!--</script>-->
+{% endblock js_extra %}

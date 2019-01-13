@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="text-align:center;">
+<h2 >You already have an active session</h2>
+    <br>
+    <form method="POST" action="{% url 'destroy_prev_session' %}">
+                  {% csrf_token %}
+                  <input type="hidden" value="{{ userroot }}" name="username">
+        <button class="btn btn-primary" type="submit">Click here! to logout from previous session</button>
+                </form>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{
+  "name": "Quizzer",
+  "description": "A Python app, which can easily be used for conducting quizzes",
+  "image": "heroku/python",
+  "repository": "https://github.com/ashwini571/Hack36_Quiz.git",
+  "keywords": ["python", "django" ],
+  "addons": [ "heroku-postgresql" ],
+  "env": {
+    "SECRET_KEY": {
+      "description": "The secret key for the Django application.",
+      "generator": "secret"
+    }
+  },
+  "environments": {
+    "test": {
+      "scripts": {
+        "test-setup": "python manage.py collectstatic --noinput",
+        "test": "python manage.py test"
+      }
+    }
+  }
+}
