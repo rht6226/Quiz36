@@ -1,6 +1,5 @@
 from django import forms
 from .models import Quiz
-from datetimepicker.widgets import DateTimePicker
 
 class QuizForm(forms.ModelForm):
     class Meta:
