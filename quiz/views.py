@@ -53,7 +53,7 @@ def start_quiz(request):
            temp = datetime.combine(date.min, today.time()) - datetime.combine(date.min,item.start_time.time())
            print(temp)
            if (temp >timedelta(minutes=0) and temp < timedelta(hours=5,minutes=35)):
-             print("hola")
+             print(temp)
              margin = 1
            else:
                margin =0
