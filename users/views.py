@@ -100,7 +100,7 @@ def login(request):
                     user.profile.save()
                     auth.login(request, user)
 
-                    item=Quiz.objects.all().order_by('name')
+                    item=Quiz.objects.all().order_by('duration')
                     paginator = Paginator(item, 5)  # Show 1o quizzes per page
                     page = request.GET.get('page', 1)
                     try:
