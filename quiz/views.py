@@ -49,8 +49,9 @@ def start_quiz(request):
            user = request.user
            instruct = item.instructions
            instruct_list = instruct.split(";")
-           today =datetime.now()
-           if(today.time()>item.start_time.time()):
+           today =datetime.combine(date.min,datetime.now().time())+timedelta(hours=5,minutes=30)
+           k = datetime.combine(date.min,item.start_time.time())
+           if(today>k):
                temp = datetime.combine(date.min, today.time()) - datetime.combine(date.min,item.start_time.time())
                if (temp > timedelta(minutes=0) and temp < timedelta(hours=5, minutes=35)):
                    print(temp)

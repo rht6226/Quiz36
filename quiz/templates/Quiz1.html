@@ -136,7 +136,20 @@
 
     </body>
 
+    <script>
+    document.addEventListener('fullscreenchange', exitHandler);
+document.addEventListener('webkitfullscreenchange', exitHandler);
+document.addEventListener('mozfullscreenchange', exitHandler);
+document.addEventListener('MSFullscreenChange', exitHandler);
 
+function exitHandler() {
+    if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+
+
+    }
+}
+
+    </script>
     <script>
 window.addEventListener('keydown', function(e){
     if((e.key=='Escape'||e.key=='Esc'||e.keyCode==27) && (e.target.nodeName=='body')){
