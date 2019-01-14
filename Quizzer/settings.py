@@ -83,10 +83,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'Quizoholic',
-        'USER': 'postgres',
-        'PASSWORD': 'lodulodu',
+        'USER': 'rohit',
+        'PASSWORD': 'qwerty',
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
     }
 }
 

@@ -139,11 +139,12 @@ def create(request):
                     item.tags=request.POST['tags']
                     item.save()
                     url = item.csv_file.url
-                    l = url.split('/')
-                    s = "\\"
-                    s = s.join(l)
+                    # l = url.split('/')
+                    # s = "\\"
+                    # s = s.join(l)
                     f = os.getcwd() + url
                     data = clean(f)
+                    print(data)
                     for row in data:
                         ques = Question()
                         ques.quiz = item
