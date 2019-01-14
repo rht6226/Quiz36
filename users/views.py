@@ -128,8 +128,8 @@ def logout(request):
 
 @login_required(login_url = '/accounts/login')
 def dash(request):
-    item = Quiz.objects.all().order_by('name')
-    paginator = Paginator(item, 5)  # Show 1o quizzes per page
+    item = Quiz.objects.all().order_by('duration')
+    paginator = Paginator(item, 7)  # Show 1o quizzes per page
     page = request.GET.get('page', 1)
     try:
         item = paginator.get_page(page)
