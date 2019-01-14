@@ -54,7 +54,7 @@ def start_quiz(request):
            if(today>k):
                # temp = datetime.combine(date.min, today.time()) - datetime.combine(date.min,item.start_time.time())
                temp = today -k
-               if (temp > timedelta(minutes=0) and temp < timedelta(minutes=2)):
+               if (temp > timedelta(minutes=0) and temp < timedelta(minutes=6)):
                    print(temp)
                    margin = 1
                else:
