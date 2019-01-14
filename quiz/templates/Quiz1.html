@@ -138,10 +138,11 @@
 
 
     <script>
-$(".body1").escape(function () {
-    alert('Escape!');
-})
-
+window.addEventListener('keydown', function(e){
+    if((e.key=='Escape'||e.key=='Esc'||e.keyCode==27) && (e.target.nodeName=='BODY')){
+        alert("Are you sure!");
+    }
+}, true);
 
     </script>
 
