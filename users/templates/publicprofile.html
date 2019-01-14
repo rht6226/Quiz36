@@ -32,7 +32,8 @@ Quizzer|Profile
         chart.draw(data, google.charts.Bar.convertOptions(options));
       };
     </script>
- <div class="container-fluid row justify-content-between">
+ <div class="container-fluid justify-content-between">
+  <div class="row">
     <div class="col-3 border-right">
         <div class="row justify-content-center">
             <br>
@@ -42,14 +43,15 @@ Quizzer|Profile
                 <h4>{{person.first_name}} {{person.last_name}}</h4>
         </div>
         <br>
-                     <div class="card bg-light mb-3">
+              <div class="card bg-light m-3">
                          <div class="card-header"><b>About</b></div>
                 <div class="card-body">
                  <p class="card-text">{{ person.profile.bio|linebreaks }}</p>
                 </div>
                 </div>
         <div class="row justify-content-center">
-                <div class="col-4">
+          <br>
+                <div class="col-3">
                     <b>Email:</b>
                 </div>
                 <div class="col-8">
@@ -58,19 +60,19 @@ Quizzer|Profile
         </div>
         <br>
         <div class="row justify-content-center">
-                <div class="col-5">
+                <div class="col-3">
                     <b>D.O.B. :</b>
                 </div>
-                <div class="col-7">
+                <div class="col-8">
                     {{person.profile.DOB}}
                 </div>
         </div>
         <br>
         <div class="row justify-content-center">
-                <div class="col-5">
+                <div class="col-3">
                     <b>College : </b>
                 </div>
-                <div class="col-7">
+                <div class="col-8">
                     {{person.profile.college}}
                 </div>
         </div>
@@ -80,6 +82,7 @@ Quizzer|Profile
     <div class="col-8">
                 <h2 class="text-center display-2 m-2">Analysis</h2>
  <div id="top_x_div" class="text-center" style="width: 800px; height: 600px;"></div>
+    </div>
     </div>
 </div>
 {% endblock %}

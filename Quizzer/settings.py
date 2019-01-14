@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'Quizzer.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Quizoholic',
+        'NAME': 'hack36',
         'USER': 'rohit',
         'PASSWORD': 'qwerty',
         'HOST': 'localhost',
