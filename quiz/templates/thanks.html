@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+Thank You
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container">
+    <h2 class='col-6'>{{quiz_object.name}}</h2>
+    <p class= 'col-4'><b>Quizmaster - </b> {{quiz_object.quizmaster}}</p>
+    <hr>
+    <h1 class="display-5">
+        Thank You For Appearing in {{quiz_object.name}}.
+    </h1>
+    <br>
+    <br>
+    <h3 class="display-6">
+        For results kindly contact the Quizmaster
+    </h3>
+</div>  
+{% endif %}
+{% endblock %}

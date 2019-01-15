@@ -322,3 +322,7 @@ def export(request, quizid):
         return response
     else:
         return HttpResponse("You do not have the authorization")
+
+def thanks(request, quizid):
+    quiz = get_object_or_404(Quiz, Quiz_id=quizid)
+    return render(request, 'thanks.html', {'quiz_object' : quiz})
