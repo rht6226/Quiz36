@@ -192,33 +192,33 @@ window.addEventListener('keydown', function(e){
 <script>
 <!--window.onbeforeunload = function () {-->
 
-<!--//Prevent Ctrl+W-->
-
-<!--};-->
-//Exits the test upon closing fulscreen
-if (document.addEventListener)
-{
-    document.addEventListener('webkitfullscreenchange', exitHandler, false);
-    document.addEventListener('mozfullscreenchange', exitHandler, false);
-    document.addEventListener('fullscreenchange', exitHandler, false);
-    document.addEventListener('MSFullscreenChange', exitHandler, false);
-}
-function exitHandler()
-{
-    if (document.webkitIsFullScreen === false)
-    {
-      document.getElementById("endtest").click();
-
-    }
-    else if (document.mozFullScreen === false)
-    {
-      document.getElementById("endtest").click();
-          }
-    else if (document.msFullscreenElement === false)
-    {
-      document.getElementById("endtest").click();
-    }
-}
+{#<!--//Prevent Ctrl+W-->#}
+{##}
+{#<!--};-->#}
+{#//Exits the test upon closing fulscreen#}
+{#if (document.addEventListener)#}
+{#{#}
+{#    document.addEventListener('webkitfullscreenchange', exitHandler, false);#}
+{#    document.addEventListener('mozfullscreenchange', exitHandler, false);#}
+{#    document.addEventListener('fullscreenchange', exitHandler, false);#}
+{#    document.addEventListener('MSFullscreenChange', exitHandler, false);#}
+{#}#}
+{#function exitHandler()#}
+{#{#}
+{#    if (document.webkitIsFullScreen === false)#}
+{#    {#}
+{#      document.getElementById("endtest").click();#}
+{##}
+{#    }#}
+{#    else if (document.mozFullScreen === false)#}
+{#    {#}
+{#      document.getElementById("endtest").click();#}
+{#          }#}
+{#    else if (document.msFullscreenElement === false)#}
+{#    {#}
+{#      document.getElementById("endtest").click();#}
+{#    }#}
+{#}#}
 
 //start Fulscreen
 function fullscr() {
