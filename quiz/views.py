@@ -49,14 +49,20 @@ def start_quiz(request):
            user = request.user
            instruct = item.instructions
            instruct_list = instruct.split(";")
-           today =datetime.now()
-           temp = datetime.combine(date.min, today.time()) - datetime.combine(date.min,item.start_time.time())
-           print(temp)
-           if (temp < timedelta(minutes=5)):
-             print("hola")
-             margin = 1
+           today =datetime.combine(date.min,datetime.now().time())+timedelta(hours=5,minutes=30)
+           k = datetime.combine(date.min,item.start_time.time())
+           if(today>k):
+               # temp = datetime.combine(date.min, today.time()) - datetime.combine(date.min,item.start_time.time())
+               temp = today -k
+               if (temp > timedelta(minutes=0) and temp < timedelta(minutes=6)):
+                   print(temp)
+                   margin = 1
+               else:
+                   margin =0
            else:
                margin =0
+
+
 
 
            return render(request, 'instructions.html', {'quiz_object': item, 'user': user ,'instruct_list' :instruct_list ,'today':today,'margin':margin})
