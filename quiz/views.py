@@ -112,7 +112,7 @@ def clean(f):
     list1 = text.split('\n')
     list1 = list1[1:]
     for item in list1:
-        list2 = item.split(',')
+        list2 = item.split('||')
         data.append(list2)
     return data
 
