@@ -1,7 +1,7 @@
 # **Quizzer**
 ## **Introduction**  
 
-Most of us don't generally test ourselves as much as we would like to do. There is uncertainity in not knowing. We tell ourselves when the moment arrives we will take everything seriously and ace the test. This is a very common problm among students. There is either a lack of available platforms or the market is filled with online platform that claim to be up to the mark. We tried to solve a common problem most of us face. When we were looking at all the problem statements of INNODEV 2018 the one called Ample samples intrigued us the most. The Idea of actually creating a platform for conducting professional level quizzes was very interesting.
+Most of us don't generally test ourselves as much as we would like to do. There is uncertainty in not knowing. We tell ourselves when the moment arrives we will take everything seriously and ace the test. This is a very common problem among students. There is either a lack of available platforms or the market is filled with online platform that claims to be up to the mark. We tried to solve a common problem most of us face. When we were looking at all the problem statements of INNODEV 2018 the one called Ample samples intrigued us the most. The Idea of actually creating a platform for conducting professional level quizzes was very interesting.
 
 ## **Problem statement - Ample Samples**  
 
